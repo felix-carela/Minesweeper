@@ -1,0 +1,35 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(95, 86, 86);
+    margin: 0;
+}
+
+h1 {
+    color: white;
+}
+
+table {
+    height: 30vh;
+    width: 30vh;
+}
+
+td {
+    background-color: rgb(173, 173, 173);
+    transform: scale(0.9);
+}
+
+td:hover {
+    background-color: rgb(255, 255, 255);
+}
+
+button {
+    margin-top: 5vh;
+}
