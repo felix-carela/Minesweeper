@@ -59,16 +59,20 @@ function randomnizeBombs() {
 
 function handleClick(event) {
     let cell = event.target;
+    let cellId = cell.id.split('-');
+    let row = parseInt(cellId[0]);
+    let col = parseInt(cellId[1]);
+    let numBombs = 0;
     if (cell.classList.contains('bomb')) {
         alive = false;
         cell.style.backgroundColor = 'red';
     } else if (event.target.classList.contains('safe')) {
-        cell.classList.replace('safe', 'safe-checked');
-        numBombs = checkAdjacentBombCount(cell);
-        cell.style.color = colors[numBombs];
-        cell.textContent = numBombs;
         if (numBombs === 0) {
-            showAdjacent(cell);
+            floodFill(row, col, cell);
+        } else {
+            cell.classList.add('revealed');
+            numBombs = checkAdjacentBombCount(cell);
+            styleBombCount(cell, numBombs);
         }
     }
     checkWin();
@@ -90,12 +94,16 @@ function checkAdjacentBombCount(cell) {
             }
         }
     }
-
     return adjacentBombs;
 }
 
+function styleBombCount(cell, numBombs) {
+    cell.style.color = colors[numBombs];
+    cell.textContent = numBombs;
+}
+
 function checkWin() {
-    let checkedCells = document.querySelectorAll('.safe-checked');
+    let checkedCells = document.querySelectorAll('.safe revealed');
 
     if (checkedCells.length === WINNING_CHECKED) {
         h1El.innerText = 'You survived!';
@@ -112,43 +120,43 @@ function checkWin() {
 
 function revealAllCells() {
     let cells = document.querySelectorAll('td');
+    let numBombs = 0;
     for (let cell of cells) {
         if (cell.classList.contains('bomb')) {
             cell.style.backgroundColor = 'red';
         } else {
-            cell.classList.replace('safe', 'safe-checked');
+            cell.classList.add('revealed');
             numBombs = checkAdjacentBombCount(cell);
-            cell.style.color = colors[numBombs];
-            cell.textContent = numBombs;
+            styleBombCount(cell, numBombs);
         }
     }
 }
 
-function showAdjacent(cell) {
-    let cellId = cell.id.split('-');
-    let row = parseInt(cellId[0]);
-    let col = parseInt(cellId[1]);
-
-    for (i = -1; i <= 1; i++) {
-        for (j = -1; j <= 1; j++) {
-            if (row + i >= 0 && row + i < numRows && col + j >= 0 && col + j < numCols) {
-                let adjacentCell = document.getElementById((row + i) + '-' + (col + j));
-                if (adjacentCell.classList.contains('safe-checked')) {
-                    continue;
-                }
-                else if (adjacentCell.classList.contains('safe')) {
-                    adjacentCell.classList.replace('safe', 'safe-checked');
-                    numBombs = checkAdjacentBombCount(adjacentCell);
-                    adjacentCell.style.color = colors[numBombs];
-                    adjacentCell.textContent = numBombs;
-                    if (numBombs === 0) {
-                        showAdjacent(adjacentCell);
-                    } else {
-                        adjacentCell = cell.get;
-                        continue;
-                    }
-                }
-            }
-        }
+function floodFill(row, col) {
+    let cell = document.getElementById(row + '-' + col);
+  
+    if (row < 0 || row >= numRows || col < 0 || col >= numCols) {
+      return;
     }
-}
+  
+    if (cell.classList.contains('good', 'bomb') || cell.classList.contains('revealed')) {
+      return;
+    }
+  
+    let numBombs = checkAdjacentBombCount(cell);
+    cell.classList.replace('safe', 'good');
+    styleBombCount(cell, numBombs);
+    cell.classList.add('revealed');
+  
+    if (numBombs === 0) {
+      floodFill(row - 1, col);
+      floodFill(row - 1, col + 1);
+      floodFill(row - 1, col - 1);
+      floodFill(row, col - 1);
+      floodFill(row, col + 1);
+      floodFill(row + 1, col);
+      floodFill(row + 1, col + 1);
+      floodFill(row + 1, col - 1);
+    }
+  }
+  
