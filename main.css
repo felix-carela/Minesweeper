@@ -24,11 +24,11 @@ table {
 
 tr {
     height: 3vh;
+    width: 3vh;
 }
 
 td {
     background-color: rgb(173, 173, 173);
-    font: 8px;
     text-align: center;
 }
 
@@ -38,4 +38,10 @@ td:hover {
 
 button {
     margin-top: 5vh;
+}
+
+img {
+    height: 2.3vh;
+    width: 2.3vh;
+    padding-top: .2vh;
 }

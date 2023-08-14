@@ -3,7 +3,7 @@ const numRows = 10;
 const numCols = 10;
 const colors = { 0: 'white', 1: 'blue', 2: 'green', 3: 'red', 4: 'purple', 5: 'maroon', 6: 'turquoise', 7: 'black', 8: 'orange' };
 const GAME_BOMBS = 15;
-const WINNING_CHECKED =  (numRows * numCols) - GAME_BOMBS;
+const WINNING_CHECKED = (numRows * numCols) - GAME_BOMBS;
 
 /*----- State Variables -----*/
 let alive = true;
@@ -38,8 +38,8 @@ function initialize() {
         }
         html += '</tr>';
     }
-    tableEl.innerHTML = html;
 
+    tableEl.innerHTML = html;
     buttonEl.style.visibility = 'hidden';
     randomnizeBombs();
 }
@@ -63,9 +63,11 @@ function handleClick(event) {
     let row = parseInt(cellId[0]);
     let col = parseInt(cellId[1]);
     let numBombs = 0;
+
     if (cell.classList.contains('bomb')) {
         alive = false;
         cell.style.backgroundColor = 'red';
+        cell.innerHTML = '<img src="Minesweeper-mine.png" alt="bomb">';
     } else if (event.target.classList.contains('safe')) {
         if (numBombs === 0) {
             floodFill(row, col, cell);
@@ -75,6 +77,7 @@ function handleClick(event) {
             styleBombCount(cell, numBombs);
         }
     }
+
     checkWin();
 }
 
@@ -94,6 +97,7 @@ function checkAdjacentBombCount(cell) {
             }
         }
     }
+
     return adjacentBombs;
 }
 
@@ -109,7 +113,6 @@ function checkWin() {
         h1El.innerText = 'You survived!';
         tableEl.removeEventListener('click', handleClick);
         buttonEl.style.visibility = 'visible';
-
     } else if (!alive) {
         h1El.innerText = 'You died!';
         tableEl.removeEventListener('click', handleClick);
@@ -121,9 +124,10 @@ function checkWin() {
 function revealAllCells() {
     let cells = document.querySelectorAll('td');
     let numBombs = 0;
+
     for (let cell of cells) {
         if (cell.classList.contains('bomb')) {
-            cell.style.backgroundColor = 'red';
+            cell.innerHTML = '<img src="Minesweeper-mine.png" alt="bomb">';;
         } else {
             cell.classList.add('revealed');
             numBombs = checkAdjacentBombCount(cell);
@@ -134,29 +138,28 @@ function revealAllCells() {
 
 function floodFill(row, col) {
     let cell = document.getElementById(row + '-' + col);
-  
+
     if (row < 0 || row >= numRows || col < 0 || col >= numCols) {
-      return;
+        return;
     }
-  
+
     if (cell.classList.contains('good', 'bomb') || cell.classList.contains('revealed')) {
-      return;
+        return;
     }
-  
+
     let numBombs = checkAdjacentBombCount(cell);
     cell.classList.replace('safe', 'good');
     styleBombCount(cell, numBombs);
     cell.classList.add('revealed');
-  
+
     if (numBombs === 0) {
-      floodFill(row - 1, col);
-      floodFill(row - 1, col + 1);
-      floodFill(row - 1, col - 1);
-      floodFill(row, col - 1);
-      floodFill(row, col + 1);
-      floodFill(row + 1, col);
-      floodFill(row + 1, col + 1);
-      floodFill(row + 1, col - 1);
+        floodFill(row - 1, col);
+        floodFill(row - 1, col + 1);
+        floodFill(row - 1, col - 1);
+        floodFill(row, col - 1);
+        floodFill(row, col + 1);
+        floodFill(row + 1, col);
+        floodFill(row + 1, col + 1);
+        floodFill(row + 1, col - 1);
     }
-  }
-  
+}
