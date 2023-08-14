@@ -19,11 +19,17 @@ h1 {
 table {
     height: 30vh;
     width: 30vh;
+    table-layout: fixed;
+}
+
+tr {
+    height: 3vh;
 }
 
 td {
     background-color: rgb(173, 173, 173);
-    transform: scale(0.9);
+    font: 8px;
+    text-align: center;
 }
 
 td:hover {

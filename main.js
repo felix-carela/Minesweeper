@@ -1,11 +1,9 @@
-// if (!alive) {
-//     tableEl.removeEventListener('click', handleClick);
-// }
-
 /*----- Constants -----*/
 const numRows = 10;
 const numCols = 10;
 const colors = { 0: 'white', 1: 'blue', 2: 'green', 3: 'red', 4: 'purple', 5: 'maroon', 6: 'turquoise', 7: 'black', 8: 'orange' };
+const GAME_BOMBS = 15;
+const WINNING_CHECKED =  (numRows * numCols) - GAME_BOMBS;
 
 /*----- State Variables -----*/
 let alive = true;
@@ -47,9 +45,7 @@ function initialize() {
 }
 
 function randomnizeBombs() {
-    let numBombs = 10;
-
-    for (let i = 0; i < numBombs; i++) {
+    for (let i = 0; i < GAME_BOMBS; i++) {
         let randomRow = Math.floor(Math.random() * numRows);
         let randomCol = Math.floor(Math.random() * numCols);
         let bombLocation = document.getElementById(randomRow + '-' + randomCol);
@@ -62,17 +58,23 @@ function randomnizeBombs() {
 }
 
 function handleClick(event) {
-    if (event.target.classList.contains('bomb')) {
+    let cell = event.target;
+    if (cell.classList.contains('bomb')) {
         alive = false;
-        event.target.style.backgroundColor = 'red';
+        cell.style.backgroundColor = 'red';
     } else if (event.target.classList.contains('safe')) {
-        event.target.classList.replace('safe', 'safe-checked');
-        event.target.style.background = colors[checkAdjacent(event.target)];
+        cell.classList.replace('safe', 'safe-checked');
+        numBombs = checkAdjacentBombCount(cell);
+        cell.style.color = colors[numBombs];
+        cell.textContent = numBombs;
+        if (numBombs === 0) {
+            showAdjacent(cell);
+        }
     }
     checkWin();
 }
 
-function checkAdjacent(cell) {
+function checkAdjacentBombCount(cell) {
     let cellId = cell.id.split('-');
     let row = parseInt(cellId[0]);
     let col = parseInt(cellId[1]);
@@ -80,29 +82,73 @@ function checkAdjacent(cell) {
 
     for (i = -1; i <= 1; i++) {
         for (j = -1; j <= 1; j++) {
-            let cellId = document.getElementById((row + i) + '-' + (col + j));
-            if (((row + 1) < numRows && (col + 1) < numCols
-                && (row - 1) >= 0 && (col - 1) >= 0) && !(i === 0 && j === 0)) {
-                if (cellId.classList.contains('bomb')) {
+            if (row + i >= 0 && row + i < numRows && col + j >= 0 && col + j < numCols) {
+                let cell = document.getElementById((row + i) + '-' + (col + j));
+                if (cell.classList.contains('bomb')) {
                     adjacentBombs++;
                 }
             }
-
         }
     }
+
     return adjacentBombs;
 }
 
 function checkWin() {
     let checkedCells = document.querySelectorAll('.safe-checked');
-    if (checkedCells.length === 90) {
+
+    if (checkedCells.length === WINNING_CHECKED) {
         h1El.innerText = 'You survived!';
         tableEl.removeEventListener('click', handleClick);
         buttonEl.style.visibility = 'visible';
+
     } else if (!alive) {
         h1El.innerText = 'You died!';
         tableEl.removeEventListener('click', handleClick);
         buttonEl.style.visibility = 'visible';
+        revealAllCells();
     }
 }
 
+function revealAllCells() {
+    let cells = document.querySelectorAll('td');
+    for (let cell of cells) {
+        if (cell.classList.contains('bomb')) {
+            cell.style.backgroundColor = 'red';
+        } else {
+            cell.classList.replace('safe', 'safe-checked');
+            numBombs = checkAdjacentBombCount(cell);
+            cell.style.color = colors[numBombs];
+            cell.textContent = numBombs;
+        }
+    }
+}
+
+function showAdjacent(cell) {
+    let cellId = cell.id.split('-');
+    let row = parseInt(cellId[0]);
+    let col = parseInt(cellId[1]);
+
+    for (i = -1; i <= 1; i++) {
+        for (j = -1; j <= 1; j++) {
+            if (row + i >= 0 && row + i < numRows && col + j >= 0 && col + j < numCols) {
+                let adjacentCell = document.getElementById((row + i) + '-' + (col + j));
+                if (adjacentCell.classList.contains('safe-checked')) {
+                    continue;
+                }
+                else if (adjacentCell.classList.contains('safe')) {
+                    adjacentCell.classList.replace('safe', 'safe-checked');
+                    numBombs = checkAdjacentBombCount(adjacentCell);
+                    adjacentCell.style.color = colors[numBombs];
+                    adjacentCell.textContent = numBombs;
+                    if (numBombs === 0) {
+                        showAdjacent(adjacentCell);
+                    } else {
+                        adjacentCell = cell.get;
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+}
