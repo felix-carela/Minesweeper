@@ -8,6 +8,7 @@ const WINNING_CHECKED = (numRows * numCols) - GAME_BOMBS;
 /*----- State Variables -----*/
 let numFlags = 15;
 let alive = true;
+let seconds = 0;
 
 /*----- Cached Elements -----*/
 const h1El = document.querySelector('h1');
@@ -15,7 +16,7 @@ const tableEl = document.querySelector('table');
 const buttonEl = document.querySelector('button');
 const flagEl = document.getElementById('flags');
 const cells = document.querySelectorAll('table');
-const timeEl = document.getElementById('timer'); 
+const timeEl = document.getElementById('time'); 
 
 /*----- Event Listeners -----*/
 tableEl.addEventListener('click', handleClick);
@@ -27,6 +28,20 @@ cells.forEach(cell => {
 });
 
 /*----- Functions -----*/
+function startCounter() {
+    seconds = 0;
+    updateCounter();
+
+    setInterval(() => {
+        seconds++;
+        updateCounter();
+    }, 1000);
+}
+
+function updateCounter() {
+    timeEl.textContent = seconds;
+}
+
 function displayNumFlags() {
     flagEl.textContent = numFlags;
 }
@@ -82,6 +97,7 @@ function initialize() {
     buttonEl.style.visibility = 'hidden';
     randomnizeBombs();
     displayNumFlags();
+    startCounter();
 }
 
 function randomnizeBombs() {
