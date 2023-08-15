@@ -6,18 +6,57 @@ const GAME_BOMBS = 15;
 const WINNING_CHECKED = (numRows * numCols) - GAME_BOMBS;
 
 /*----- State Variables -----*/
+let numFlags = 15;
 let alive = true;
 
 /*----- Cached Elements -----*/
 const h1El = document.querySelector('h1');
 const tableEl = document.querySelector('table');
 const buttonEl = document.querySelector('button');
+const flagEl = document.getElementById('flags');
+const cells = document.querySelectorAll('table');
+const timeEl = document.getElementById('timer'); 
 
 /*----- Event Listeners -----*/
 tableEl.addEventListener('click', handleClick);
 buttonEl.addEventListener('click', plagyAgain);
 
+/*----- Loop through all cells and add event listener -----*/
+cells.forEach(cell => {
+    cell.addEventListener('contextmenu', addFlag);
+});
+
 /*----- Functions -----*/
+function displayNumFlags() {
+    flagEl.textContent = numFlags;
+}
+
+function addFlag(event) {
+    event.preventDefault();
+    if (event.button === 2) {
+        let rightClick = event.target;
+        if (rightClick.classList.contains('flag')) {
+            rightClick.classList.remove('flag');
+            numFlags++;
+        } else if ((!(rightClick.classList.contains('revealed'))) && numFlags > 0) {
+            rightClick.classList.add('flag');
+            numFlags--;
+        } else {
+            return;
+        }
+    }
+    placeFlag(event);
+    displayNumFlags();
+}
+
+function placeFlag(event) {
+    if (event.target.classList.contains('flag')) {
+        event.target.innerHTML = '<img src="Minesweeper-flag.png" alt="flag">';
+    } else if (!(event.target.classList.contains('flag'))){
+        event.target.innerHTML = '';
+    }
+}
+
 initialize();
 
 function plagyAgain() {
@@ -42,6 +81,7 @@ function initialize() {
     tableEl.innerHTML = html;
     buttonEl.style.visibility = 'hidden';
     randomnizeBombs();
+    displayNumFlags();
 }
 
 function randomnizeBombs() {
