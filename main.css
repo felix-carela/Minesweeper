@@ -17,19 +17,22 @@ h1 {
 }
 
 table {
-    height: 30vh;
-    width: 30vh;
+    height: 50vh;
+    width: 50vh;
     table-layout: fixed;
+    border: black solid 1vh;
 }
 
 tr {
-    height: 3vh;
-    width: 3vh;
+    height: 4vh;
+    width: 4vh;
 }
 
 td {
     background-color: rgb(173, 173, 173);
     text-align: center;
+    height: 4vh;
+    width: 4vh;
 }
 
 td:hover {
@@ -41,7 +44,7 @@ button {
 }
 
 img {
-    height: 2.3vh;
-    width: 2.3vh;
-    padding-top: .2vh;
+    height: 3vh;
+    width: 3vh;
+    padding-top: 0.5vh;
 }
