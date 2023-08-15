@@ -9,6 +9,8 @@ const WINNING_CHECKED = (numRows * numCols) - GAME_BOMBS;
 let numFlags = 15;
 let alive = true;
 let seconds = 0;
+let intervalID;
+let won = false;
 
 /*----- Cached Elements -----*/
 const h1El = document.querySelector('h1');
@@ -24,7 +26,7 @@ buttonEl.addEventListener('click', plagyAgain);
 
 /*----- Loop through all cells and add event listener -----*/
 cells.forEach(cell => {
-    cell.addEventListener('contextmenu', addFlag);
+        cell.addEventListener('contextmenu', addFlag);
 });
 
 /*----- Functions -----*/
@@ -32,15 +34,21 @@ function startCounter() {
     seconds = 0;
     updateCounter();
 
-    setInterval(() => {
+clearInterval(intervalID);
+
+    intervalID = setInterval(() => {
         seconds++;
-        updateCounter();
+        if (alive && !(won)) {
+            updateCounter()
+        };
     }, 1000);
 }
 
 function updateCounter() {
     timeEl.textContent = seconds;
 }
+
+
 
 function displayNumFlags() {
     flagEl.textContent = numFlags;
@@ -169,6 +177,7 @@ function checkWin() {
         h1El.innerText = 'You survived!';
         tableEl.removeEventListener('click', handleClick);
         buttonEl.style.visibility = 'visible';
+        won = true;
     } else if (!alive) {
         h1El.innerText = 'You died!';
         tableEl.removeEventListener('click', handleClick);

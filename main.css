@@ -26,14 +26,25 @@ container {
     flex-direction: row;
 }
 
-.info1 {
-    margin-right: 30vh;;
-}
-
 h2 {
     color: rgb(6, 0, 0);
 }
 
+.info1 {
+    margin-right: 15vh;
+}
+
+.info2 {
+    margin-left: 15vh;
+}
+
+#time {
+    position: absolute;
+}
+
+#flags {
+    position: absolute;
+}
 
 table {
     height: 50vh;
