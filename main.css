@@ -47,26 +47,18 @@ table {
     height: 50vh;
     width: 50vh;
     table-layout: fixed;
-    /* border: black solid 1vh; */
+    border: black solid 1vh;
     margin-top: 2vh;
-    border: 0px;
-    /* z-index: -1; */
-    /* pointer-events: none; */
 }
 
 tr {
-    height: 4vh;
-    width: 4vh;
-    border: 0px;
-
+    height: 5vh;
+    width: 5vh;
 }
 
 td {
     background-color: rgb(173, 173, 173);
     text-align: center;
-    height: 4vh;
-    width: 4vh;
-    border: 0px;
 }
 
 td:hover {
@@ -86,6 +78,7 @@ img {
 td:hover {
     box-shadow: inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
 }
+
 button {
     margin-top: 5vh;
     height: 4vh;
