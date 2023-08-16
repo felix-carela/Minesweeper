@@ -2,11 +2,11 @@
 const numRows = 10;
 const numCols = 10;
 const colors = { 0: 'white', 1: 'blue', 2: 'green', 3: 'red', 4: 'purple', 5: 'maroon', 6: 'turquoise', 7: 'black', 8: 'orange' };
-const GAME_BOMBS = 15;
+const GAME_BOMBS = 12;
 const WINNING_CHECKED = (numRows * numCols) - GAME_BOMBS;
 
 /*----- State Variables -----*/
-let numFlags = 15;
+let numFlags = 12;
 let alive = true;
 let seconds = 0;
 let intervalID;
@@ -26,7 +26,7 @@ buttonEl.addEventListener('click', plagyAgain);
 
 /*----- Loop through all cells and add event listener -----*/
 cells.forEach(cell => {
-        cell.addEventListener('contextmenu', addFlag);
+    cell.addEventListener('contextmenu', addFlag);
 });
 
 /*----- Functions -----*/
@@ -34,7 +34,7 @@ function startCounter() {
     seconds = 0;
     updateCounter();
 
-clearInterval(intervalID);
+    clearInterval(intervalID);
 
     intervalID = setInterval(() => {
         seconds++;
@@ -171,7 +171,7 @@ function styleBombCount(cell, numBombs) {
 }
 
 function checkWin() {
-    let checkedCells = document.querySelectorAll('.safe revealed');
+    let checkedCells = document.querySelectorAll('.good.revealed');
 
     if (checkedCells.length === WINNING_CHECKED) {
         h1El.innerText = 'You survived!';

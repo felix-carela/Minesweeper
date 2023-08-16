@@ -21,7 +21,7 @@ h1 {
     font-size: 6vh;
 }
 
-container {
+div {
     display: flex;
     flex-direction: row;
 }
@@ -40,23 +40,25 @@ h2 {
 
 #time {
     position: absolute;
-}
-
-#flags {
-    position: absolute;
+    margin-left: .5vh;
 }
 
 table {
     height: 50vh;
     width: 50vh;
     table-layout: fixed;
-    border: black solid 1vh;
+    /* border: black solid 1vh; */
     margin-top: 2vh;
+    border: 0px;
+    /* z-index: -1; */
+    /* pointer-events: none; */
 }
 
 tr {
     height: 4vh;
     width: 4vh;
+    border: 0px;
+
 }
 
 td {
@@ -64,6 +66,7 @@ td {
     text-align: center;
     height: 4vh;
     width: 4vh;
+    border: 0px;
 }
 
 td:hover {
