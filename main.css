@@ -95,3 +95,27 @@ button {
     font-weight: bold;
     border: 1px solid black;
 }
+
+.div2 {
+    margin-top: 20vh;
+}
+
+#github {
+    position: absolute;
+    bottom: 1.5vh;
+    left: 1.5vh;
+}
+
+#linkedin {
+    position: absolute;
+    bottom: 1.5vh;
+    right: 1.5vh;
+}
+
+span {
+    color: white;
+}
+
+a {
+    color: rgb(6, 6, 160);
+}
