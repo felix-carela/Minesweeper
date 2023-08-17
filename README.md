@@ -10,11 +10,11 @@ My game is Minesweeper, a game that challenges your logic and deduction skills. 
 
 ## Screenshots
 #### Game at start.
-![Start of Game](game-start.png)
+![Start of Game](images/game-start.png)
 
 #### Game after losing.
 
-![End of Game](game-end.png)
+![End of Game](images/game-end.png)
 
 ## Getting Started
 
