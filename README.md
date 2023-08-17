@@ -9,7 +9,11 @@ My game is Minesweeper, a game that challenges your logic and deduction skills. 
 - `main.js`: The JavaScript file containing the game logic.
 
 ## Screenshots
+Game at start.
+![Start of Game](game-start.png)
 
+Game after losing.
+![End of Game](game-end.png)
 
 ## Getting Started
 
