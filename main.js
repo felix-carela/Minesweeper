@@ -48,6 +48,8 @@ function playFlagSound() {
 
 
 function playRevealSound() {
+    flagSound.pause();
+    flagSound.currentTime = 0;
     revealSound.play();
 }
 
