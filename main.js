@@ -53,6 +53,10 @@ function playRevealSound() {
     revealSound.play();
 }
 
+function playMineExplosionSound() {
+    mineSound.play();
+}
+
 function startCounter() {
     seconds = 0;
     updateCounter();
@@ -71,9 +75,6 @@ function updateCounter() {
     timeEl.textContent = seconds;
 }
 
-function playMineExplosionSound() {
-    mineSound.play();
-}
 
 function displayNumFlags() {
     flagEl.textContent = numFlags;
