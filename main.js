@@ -19,6 +19,10 @@ const buttonEl = document.querySelector('button');
 const flagEl = document.getElementById('flags');
 const cells = document.querySelectorAll('table');
 const timeEl = document.getElementById('time'); 
+const mineSound = document.getElementById('mineExplosion');
+const revealSound = document.getElementById('reveal');
+const flagSound = document.getElementById('flag');
+const removeFlagSound = document.getElementById('removeFlag');
 
 /*----- Event Listeners -----*/
 tableEl.addEventListener('click', handleClick);
@@ -30,6 +34,23 @@ cells.forEach(cell => {
 });
 
 /*----- Functions -----*/
+function playRemoveFlagSound() {
+    flagSound.pause();
+    flagSound.currentTime = 0;
+    removeFlagSound.play();
+}
+
+function playFlagSound() {
+    flagSound.pause();
+    flagSound.currentTime = 0;
+    flagSound.play();
+}
+
+
+function playRevealSound() {
+    revealSound.play();
+}
+
 function startCounter() {
     seconds = 0;
     updateCounter();
@@ -48,7 +69,9 @@ function updateCounter() {
     timeEl.textContent = seconds;
 }
 
-
+function playMineExplosionSound() {
+    mineSound.play();
+}
 
 function displayNumFlags() {
     flagEl.textContent = numFlags;
@@ -59,9 +82,11 @@ function addFlag(event) {
     if (event.button === 2) {
         let rightClick = event.target;
         if (rightClick.classList.contains('flag')) {
+            playRemoveFlagSound();
             rightClick.classList.remove('flag');
             numFlags++;
         } else if ((!(rightClick.classList.contains('revealed'))) && numFlags > 0) {
+            playFlagSound();
             rightClick.classList.add('flag');
             numFlags--;
         } else {
@@ -74,7 +99,7 @@ function addFlag(event) {
 
 function placeFlag(event) {
     if (event.target.classList.contains('flag')) {
-        event.target.innerHTML = '<img src="Minesweeper-flag.png" alt="flag">';
+        event.target.innerHTML = '<img src="images/Minesweeper-flag.png" alt="flag">';
     } else if (!(event.target.classList.contains('flag'))){
         event.target.innerHTML = '';
     }
@@ -127,12 +152,14 @@ function handleClick(event) {
     let row = parseInt(cellId[0]);
     let col = parseInt(cellId[1]);
     let numBombs = 0;
-
+    
     if (cell.classList.contains('bomb')) {
+        playMineExplosionSound();
         alive = false;
         cell.style.backgroundColor = 'red';
-        cell.innerHTML = '<img src="Minesweeper-mine.png" alt="bomb">';
+        cell.innerHTML = '<img src="images/Minesweeper-mine.png" alt="bomb">';
     } else if (event.target.classList.contains('safe')) {
+        playRevealSound();
         if (numBombs === 0) {
             floodFill(row, col, cell);
         } else {
@@ -192,7 +219,7 @@ function revealAllCells() {
 
     for (let cell of cells) {
         if (cell.classList.contains('bomb')) {
-            cell.innerHTML = '<img src="Minesweeper-mine.png" alt="bomb">';;
+            cell.innerHTML = '<img src="images/Minesweeper-mine.png" alt="bomb">';;
         } else {
             cell.classList.add('revealed');
             numBombs = checkAdjacentBombCount(cell);

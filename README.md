@@ -33,5 +33,4 @@ Here are some possible enhancements for this Minesweeper game:
 
 - Add different difficulty levels.
 - Implement a win streak counter.
-- Add sounds.
 - Improve the visual design and user experience.
