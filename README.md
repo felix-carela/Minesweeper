@@ -19,7 +19,6 @@ My game is Minesweeper, a game that challenges your logic and deduction skills. 
 ## Getting Started
 
 - Clone or download this repository.
-- [GitHub Pages](https://felix-carela.github.io/Minesweeper/)
 - [Netlify](https://felix-carela-minesweeper.netlify.app/)
 
 
